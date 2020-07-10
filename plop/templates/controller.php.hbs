@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Infrastructure\Http\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+class {{properCase controllerName}}Controller extends AbstractController
+{
+    /**
+     * @Route("/{{dashCase controllerName}}", name="{{snakeCase controllerName}}")
+     */
+    public function index(Request $request)
+    {
+
+    }
+}

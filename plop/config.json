@@ -1,0 +1,11 @@
+{
+  "folder": {
+    "controller": "src/Infrastructure/Http/Controller",
+    "dataFixture": "src/Infrastructure/DataFixtures",
+    "doctrineType": "src/Infrastructure/Persistence/Persistence/Doctrine/Type",
+    "consoleCommand": "src/Infrastructure/Console",
+    "model": "src/Domain/Model",
+    "readMessage": "src/Application/Read",
+    "writeMessage": "src/Application/Write"
+  }
+}

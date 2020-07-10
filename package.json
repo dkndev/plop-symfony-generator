@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "inquirer-recursive": "^0.0.6",
+    "lodash": "^4.17.15",
+    "plop": "^2.7.1",
+    "pluralize": "^8.0.0"
+  }
+}
