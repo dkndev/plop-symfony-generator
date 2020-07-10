@@ -1,16 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace App\Domain\Model\User;
+namespace App\Domain\Model\{{properCase modelName}};
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface
+class {{properCase modelName}}
 {
-    private $id;
-    private $username;
-    private $password;
-    private $email;
-    private $role;
+    {{#each fields}}
+
+        {{#if this.type === 'customType'}}
+            private {{properCase this.modelName}}{{properCase this.name}} ${{properCase this.name}}
+        {{else}}
+            private {{this.type}} ${{properCase this.name}}
+        {{/if}}
+
+    {{/each}}    
+
 
     public function __construct(
         $id,

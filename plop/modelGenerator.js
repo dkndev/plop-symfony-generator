@@ -50,24 +50,21 @@ module.exports = plop => {
       {
         type: 'add',
         path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
-        templateFile: 'plop/templates/model.php.hbs',
-        skip(data) {
-          console.log(data)
-        }
+        templateFile: 'plop/templates/model/model.php.hbs',
       },
       {
         type: 'add',
         path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}Id.php`,
-        templateFile: 'plop/templates/modelId.php.hbs'
+        templateFile: 'plop/templates/model/modelId.php.hbs'
       },
-      {
-        type: 'add',
-        path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
-        templateFile: 'plop/templates/model.php.hbs',
-        skip(data) {
-          console.log(data)
-        }
-      }
+      // {
+      //   type: 'add',
+      //   path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
+      //   templateFile: 'plop/templates/modelType.php.hbs',
+      //   skip(data) {
+      //     console.log(data)
+      //   }
+      // }
     ],
   })
 }
