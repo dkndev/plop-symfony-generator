@@ -77,7 +77,20 @@ module.exports = plop => {
               type: 'add',
               path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}${_.upperFirst(_.camelCase(field.name))}.php`,
               templateFile: 'templates/model/modelType.php.hbs',
-            }
+            },
+            {
+              data: {field},
+              type: 'add',
+              path: `${config.folder.doctrineType}/{{properCase modelName}}/{{properCase modelName}}${_.upperFirst(_.camelCase(field.name))}Type.php`,
+              templateFile: 'templates/model/doctrineType.php.hbs',
+            },
+            {
+              pattern: /(# ADD TYPES HERE)/g,
+              data: {field},
+              type: 'modify',
+              path: `${config.folder.doctrineTypeDeclaration}`,
+              template: `$1\n\t\t\t${_.snakeCase(data.modelName + '_' + field.name)}: \\App\\Infrastructure\\Persistence\\Doctrine\\Type\\${_.upperFirst(_.camelCase(data.modelName))}\\${_.upperFirst(_.camelCase(data.modelName + '_' + field.name))}Type`,
+            },
           )
         }
       })

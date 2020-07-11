@@ -3,6 +3,7 @@
     "controller": "src/Infrastructure/Http/Controller",
     "dataFixture": "src/Infrastructure/DataFixtures",
     "doctrineType": "src/Infrastructure/Persistence/Persistence/Doctrine/Type",
+    "doctrineTypeDeclaration": "src/Config/test.yaml",
     "consoleCommand": "src/Infrastructure/Console",
     "model": "src/Domain/Model",
     "readMessage": "src/Application/Read",

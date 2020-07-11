@@ -4,22 +4,22 @@ namespace App\Domain\Model\\{{properCase modelName}};
 
 class {{properCase modelName}}
 {
-   private {{properCase modelName}}Id $id;
-{{#each fields}} <!-- Todo: fix customType modelName prefix -->
+    private {{properCase modelName}}Id $id;
+{{#each fields}}
   {{#if this.isCustomType}}
-    private {{#if this.nullable}}?{{/if}}{{properCase modelName}}{{properCase this.name}} ${{camelCase this.name}};
+    private {{#if this.nullable}}?{{/if}}{{properCase ../modelName}}{{properCase this.name}} ${{camelCase this.name}};
   {{else}}
     private {{#if this.nullable}}?{{/if}}{{this.type}} ${{camelCase this.name}};
   {{/if}}
 {{/each}}
 
     public function __construct(
-      {{properCase modelName}}Id $id,
+        {{properCase modelName}}Id $id,
     {{#each fields}}
       {{#if this.isCustomType}}
-        {{#if this.nullable}}?{{/if}}{{properCase modelName}}{{properCase this.name}} ${{camelCase this.name}},
+        {{#if this.nullable}}?{{/if}}{{properCase ../modelName}}{{properCase this.name}} ${{camelCase this.name}}{{#unless @last}},{{/unless}}
       {{else}}
-        {{#if this.nullable}}?{{/if}}{{this.type}} ${{camelCase this.name}},
+        {{#if this.nullable}}?{{/if}}{{this.type}} ${{camelCase this.name}}{{#unless @last}},{{/unless}}
       {{/if}}
     {{/each}}
     ) {
@@ -35,7 +35,7 @@ class {{properCase modelName}}
     }
 
   {{#each fields}}
-    public function get{{properCase this.name}}(): {{#if this.nullable}}?{{/if}}{{#if this.isCustomType}}{{properCase modelName}}{{properCase this.name}}{{else}}{{this.type}}{{/if}}
+    public function get{{properCase this.name}}(): {{#if this.nullable}}?{{/if}}{{#if this.isCustomType}}{{properCase ../modelName}}{{properCase this.name}}{{else}}{{this.type}}{{/if}}
     {
         return $this->{{camelCase this.name}};
     }

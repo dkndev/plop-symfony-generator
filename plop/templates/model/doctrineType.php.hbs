@@ -1,0 +1,45 @@
+<?php declare(strict_types=1);
+
+namespace App\Infrastructure\Persistence\Doctrine\Type;
+
+use App\Domain\Model\\{{properCase modelName}}\\{{properCase modelName}}{{properCase field.name}};
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
+
+class {{properCase modelName}}{{properCase field.name}}Type extends Type
+{
+    public const {{constantCase modelName}}_{{constantCase field.name}} = '{{snakeCase modelName}}_{{snakeCase field.name}}';
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    {
+        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform)
+    {
+        if (null === $value || $value instanceof {{properCase modelName}}{{properCase field.name}}) {
+            return $value;
+        }
+
+        return new {{properCase modelName}}{{properCase field.name}}($value);
+    }
+
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return (string) $value;
+    }
+
+    public function getName(): string
+    {
+        return self::{{constantCase modelName}}_{{constantCase field.name}};
+    }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
+    }
+}
