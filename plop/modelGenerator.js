@@ -1,5 +1,6 @@
 const config = require('./config.json')
-const { inputRequired } = require('./utils')
+const {inputRequired} = require('./utils')
+const _ = require('lodash')
 
 module.exports = plop => {
   plop.setGenerator('model/entity', {
@@ -30,8 +31,6 @@ module.exports = plop => {
               'customType',
               'string',
               'int',
-              'text',
-              'json',
               'array',
               'boolean',
               'dateTime',
@@ -46,25 +45,44 @@ module.exports = plop => {
         ]
       }
     ],
-    actions: [
-      {
-        type: 'add',
-        path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
-        templateFile: 'plop/templates/model/model.php.hbs',
-      },
-      {
-        type: 'add',
-        path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}Id.php`,
-        templateFile: 'plop/templates/model/modelId.php.hbs'
-      },
-      // {
-      //   type: 'add',
-      //   path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
-      //   templateFile: 'plop/templates/modelType.php.hbs',
-      //   skip(data) {
-      //     console.log(data)
-      //   }
-      // }
-    ],
+    actions: data => {
+      let actions = []
+
+      data.fields = data.fields.map(field => {
+        if (field.type === 'customType') {
+          field.isCustomType = true
+        } else {
+          field.isCustomType = false
+        }
+
+        return field
+      })
+
+      actions.push({
+          type: 'add',
+          path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}.php`,
+          templateFile: 'templates/model/model.php.hbs',
+        },
+        {
+          type: 'add',
+          path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}Id.php`,
+          templateFile: 'templates/model/modelId.php.hbs'
+        })
+
+      data.fields.forEach(field => {
+        if (field.isCustomType) {
+          actions.push(
+            {
+              data: {field},
+              type: 'add',
+              path: `${config.folder.model}/{{properCase modelName}}/{{properCase modelName}}${_.upperFirst(_.camelCase(field.name))}.php`,
+              templateFile: 'templates/model/modelType.php.hbs',
+            }
+          )
+        }
+      })
+
+      return actions
+    },
   })
 }

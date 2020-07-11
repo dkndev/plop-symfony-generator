@@ -1,71 +1,44 @@
 <?php declare(strict_types=1);
 
-namespace App\Domain\Model\{{properCase modelName}};
-
-use Symfony\Component\Security\Core\User\UserInterface;
+namespace App\Domain\Model\\{{properCase modelName}};
 
 class {{properCase modelName}}
 {
-    {{#each fields}}
-
-        {{#if this.type === 'customType'}}
-            private {{properCase this.modelName}}{{properCase this.name}} ${{properCase this.name}}
-        {{else}}
-            private {{this.type}} ${{properCase this.name}}
-        {{/if}}
-
-    {{/each}}    
-
+   private {{properCase modelName}}Id $id;
+{{#each fields}} <!-- Todo: fix customType modelName prefix -->
+  {{#if this.isCustomType}}
+    private {{#if this.nullable}}?{{/if}}{{properCase modelName}}{{properCase this.name}} ${{camelCase this.name}};
+  {{else}}
+    private {{#if this.nullable}}?{{/if}}{{this.type}} ${{camelCase this.name}};
+  {{/if}}
+{{/each}}
 
     public function __construct(
-        $id,
-        $username,
-        $email,
-        $role
+      {{properCase modelName}}Id $id,
+    {{#each fields}}
+      {{#if this.isCustomType}}
+        {{#if this.nullable}}?{{/if}}{{properCase modelName}}{{properCase this.name}} ${{camelCase this.name}},
+      {{else}}
+        {{#if this.nullable}}?{{/if}}{{this.type}} ${{camelCase this.name}},
+      {{/if}}
+    {{/each}}
     ) {
         $this->id = $id;
-        $this->username = $username;
-        $this->email = $email;
-        $this->role = $role;
+    {{#each fields}}
+        $this->{{camelCase this.name}} = ${{camelCase this.name}};
+    {{/each}}
     }
 
-    public function getUsername()
+    public function getId(): {{properCase modelName}}Id
     {
-        return $this->username;
+        return $this->id;
     }
 
-
-    public function getSalt()
+  {{#each fields}}
+    public function get{{properCase this.name}}(): {{#if this.nullable}}?{{/if}}{{#if this.isCustomType}}{{properCase modelName}}{{properCase this.name}}{{else}}{{this.type}}{{/if}}
     {
-        return null;
+        return $this->{{camelCase this.name}};
     }
 
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    public function getRoles(): array
-    {
-        return [$this->role];
-    }
-
-    public function eraseCredentials()
-    {
-    }
+  {{/each}}
 }
